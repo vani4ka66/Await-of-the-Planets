@@ -60,7 +60,7 @@ export default class Application extends EventEmitter {
   }
 
   async _load() {
-    await fetch('https://swapi.dev/api/planets')
+    await fetch('https://swapi.boom.dev/api/planets')
       .then(response => response.json())
       .then(data => {
 
@@ -69,6 +69,8 @@ export default class Application extends EventEmitter {
 
         for (let i = 1; i <= numberOfPages; i++) {
           next = next.substring(0, next.length - 1) + i;
+
+          console.log(next)
 
           if (next !== null) {
 
@@ -82,7 +84,6 @@ export default class Application extends EventEmitter {
                     this.arr.push(j);
 
                     this._create(j.name, j.terrain, j.population)
-                    console.log(j)
 
                     const box = document.createElement("div");
                     box.classList.add("box");
@@ -104,23 +105,21 @@ export default class Application extends EventEmitter {
       })
   }
 
-   _create(name, terrain, population) {
+  _create() {
 
     this._startLoading()
     this._load();
     this._stopLoading()
 
-    this.emit(Application.events.READY);
+    // this.emit(Application.events.READY);
 
   }
 
   _startLoading() {
     this._loading.classList.remove('hide')
-    this._loading.classList.add('show')
   }
 
   _stopLoading() {
-    this._loading.classList.remove('show')
     this._loading.classList.add('hide')
   }
 }
